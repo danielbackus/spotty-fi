@@ -1,7 +1,7 @@
 version: "2.4"
 
 services:
-  web:
+  api:
     build: ./api
     command: npm run debug
     volumes:
@@ -9,3 +9,23 @@ services:
     ports:
       - "3000:3000"
       - "5858:5858"
+
+  # ui:
+  #   build: ./ui
+  #   command: npm run debug
+  #   volumes:
+  #     - ./ui/dist:/server/dist
+  #   ports:
+  #     - "3001:3001"
+  #     - "5858:5859"
+
+  db:
+    image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pg:/docker-entrypoint-initdb.d/
+      - ./pg-data:/bar/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password

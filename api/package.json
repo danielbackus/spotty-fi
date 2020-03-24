@@ -2,7 +2,7 @@
   "name": "spotty-fi-api",
   "version": "0.1.0",
   "scripts": {
-    "lint": "npx eslint ./src/**.ts && node src/index.ts",
+    "lint": "npx eslint ./src/**.ts",
     "watch": "npx ts-node-dev --project src/tsconfig.json --transpile-only src",
     "debug": "npx nodemon --legacy-watch --watch ./dist --inspect=0.0.0.0:5858 --nolazy ./dist/index.js",
     "docker-debug": "docker-compose up",
@@ -34,8 +34,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx pretty-quick --staged",
-      "pre-push": "npm run lint"
+      "pre-commit": "npx pretty-quick --staged"
     }
   }
 }

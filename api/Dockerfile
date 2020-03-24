@@ -4,7 +4,7 @@ WORKDIR /server
 
 COPY package*.json /server/
 
-RUN npm install
+RUN npm install --silent
 
 COPY . /server/
 

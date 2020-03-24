@@ -2,10 +2,9 @@
   "name": "spotty-fi-api",
   "version": "0.1.0",
   "scripts": {
-    "lint": "npx eslint ./src/**.ts",
-    "postinstall": "tsc -p ./src",
-    "watch": "tsc -w -p ./src",
-    "debug": "nodemon --legacy-watch --watch ./dist --inspect=0.0.0.0:5858 --nolazy ./dist/index.js",
+    "lint": "npx eslint ./src/**.ts && node src/index.ts",
+    "watch": "npx ts-node-dev --project src/tsconfig.json --transpile-only src",
+    "debug": "npx nodemon --legacy-watch --watch ./dist --inspect=0.0.0.0:5858 --nolazy ./dist/index.js",
     "docker-debug": "docker-compose up",
     "start": "ts-node src/index.ts"
   },
@@ -21,6 +20,7 @@
     "prettier": "2.0.2",
     "pretty-quick": "^2.0.1",
     "ts-node": "3.3.0",
+    "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "3.3.3333"
   },
   "main": "./dist/index.js",

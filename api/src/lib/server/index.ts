@@ -4,6 +4,7 @@ import logger from "../logger"; // this abstraction will allow us to easily swit
 import { Connection, connect, getConnection } from "../db";
 
 export const init = async () => {
+  logger.log("initializing api server");
   let connection: Connection;
   try {
     logger.log("connecting to database");

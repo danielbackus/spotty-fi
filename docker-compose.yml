@@ -20,7 +20,7 @@ services:
       - ./api/src:/server/src
       - ./api/dist:/server/dist
     ports:
-      - "3000:3000"
+      - "3001:3001"
       - "5858:5858"
     environment:
       - PG_HOST=db

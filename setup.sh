@@ -6,4 +6,4 @@ npm i
 cd ..
 # Setup frontend
 # Bring up containers
-docker-compose up
+docker-compose up --build

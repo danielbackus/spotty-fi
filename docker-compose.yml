@@ -46,3 +46,13 @@ services:
       - API_URL=localhost:3001
     stdin_open: true
     tty: true
+
+  storybook:
+    init: true
+    image: node:lts-alpine
+    command: npm run storybook
+    volumes:
+      - ./ui:/usr/src/app
+    working_dir: /usr/src/app
+    ports:
+      - 9009:9009

@@ -8,5 +8,4 @@ RUN npm install --silent
 
 COPY . /server/
 
-EXPOSE 3000
 CMD [ "npm", "start" ]

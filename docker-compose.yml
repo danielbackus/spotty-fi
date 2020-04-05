@@ -29,20 +29,20 @@ services:
       - PORT=3001
     links:
       - db
-  # ui:
-  #   init: true
-  #   build:
-  #     context: ./ui
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - './ui:/app'
-  #     - '/app/node_modules'
-  #   ports:
-  #     - '6969:3000'
-  #     - '6970:3001'
-  #   environment:
-  #     - NODE_ENV=development
-  #     - CLIENT_PUBLIC_PATH=http://localhost:6970/
-  #     - CHOKIDAR_USEPOLLING=true
-  #     - API_URL=api
-  #     - VERBOSE=true
+
+  ui:
+    init: true
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    volumes:
+      - "./ui:/usr/app"
+      - "/app/node_modules"
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - API_URL=localhost:3001
+    stdin_open: true
+    tty: true

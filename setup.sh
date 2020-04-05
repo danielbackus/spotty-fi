@@ -5,5 +5,7 @@ cd api
 npm i
 cd ..
 # Setup frontend
+cd ui
+npm i
 # Bring up containers
 docker-compose up --build

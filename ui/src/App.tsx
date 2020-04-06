@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ky from "ky";
-import constants from "./constants";
+import { API_URL } from "./constants";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -12,7 +12,7 @@ const App = () => {
     const { signal } = controller;
     const getApiStatus = async () => {
       try {
-        const response = await ky.get(`${constants.API_URL}/status`, {
+        const response = await ky.get(`${API_URL}/status`, {
           signal,
         });
         setApiStatus(response.statusText);

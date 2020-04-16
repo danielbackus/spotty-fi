@@ -5,10 +5,10 @@ export const statusHandler = async (req: Request, res: Response) => {
   try {
     const connection = await getConnection();
     await connection.query("SELECT 1");
-    res.end();
   } catch (err) {
     res.status(500);
   }
+  res.end();
 };
 
 const router = Router();

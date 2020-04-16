@@ -1,0 +1,38 @@
+{
+  "name": "spotty-fi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "npm run lint-api && npm run lint-ui",
+    "lint-api": "npm run --prefix api lint",
+    "lint-ui": "npm run --prefix ui lint",
+    "prettier": "npx prettier . --write",
+    "test": "npm run test-api && npm run test-ui",
+    "test-api": "npm run --prefix api test",
+    "test-ui": "npm run --prefix ui test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielbackus/spotty-fi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielbackus/spotty-fi/issues"
+  },
+  "homepage": "https://github.com/danielbackus/spotty-fi#readme",
+  "devDependencies": {
+    "prettier": "2.0.4"
+  },
+  "dependencies": {
+    "husky": "^4.2.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier",
+      "pre-push": "npm run lint && npm test"
+    }
+  }
+}

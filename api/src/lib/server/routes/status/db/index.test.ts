@@ -1,21 +1,21 @@
 jest.mock("@lib/db");
-import { getConnection } from '@lib/db';
-import { statusHandler } from '.';
+import { getConnection } from "@lib/db";
+import { statusHandler } from ".";
 
 describe("routes/status/db", () => {
   const mockConnection = {
-    query: jest.fn()
+    query: jest.fn(),
   };
   afterEach(() => {
     jest.resetAllMocks();
   });
   afterAll(() => {
-    jest.resetModules
+    jest.resetModules;
   });
   const mockRequest: any = {};
   const mockResponse: any = {
     end: jest.fn(),
-    status: jest.fn()
+    status: jest.fn(),
   };
 
   it("should get a connection and execute test query", async () => {
@@ -27,10 +27,10 @@ describe("routes/status/db", () => {
   it("should have status 500 if it can't get connection", async () => {
     (getConnection as jest.Mock).mockImplementationOnce(() => {
       throw new Error();
-    })
+    });
     await statusHandler(mockRequest, mockResponse);
     expect(mockResponse.status).toBeCalledWith(500);
     expect(mockConnection.query).not.toBeCalled();
     expect(mockResponse.end).toBeCalled();
-  })
-})
+  });
+});

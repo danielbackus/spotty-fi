@@ -1,8 +1,8 @@
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 import * as React from "react";
-import ky from 'ky';
+import ky from "ky";
 import { render, screen, waitForElement } from "@testing-library/react";
-import '@testing-library/jest-dom/extend-expect'
+import "@testing-library/jest-dom/extend-expect";
 import App from "./App";
 
 test("renders AP", () => {
@@ -14,24 +14,28 @@ test("renders AP", () => {
 describe("App", () => {
   let mockAPI: jest.SpyInstance;
   beforeEach(() => {
-    mockAPI = jest.spyOn(ky, 'get');
-  }) 
+    mockAPI = jest.spyOn(ky, "get");
+  });
   afterEach(() => {
     jest.restoreAllMocks();
   });
   const okResponse = {
-    statusText: 'OK'
+    statusText: "OK",
   } as Response;
   it("reports OK API status", async () => {
     mockAPI.mockResolvedValueOnce(okResponse);
     render(<App />);
-    const statusText = await waitForElement(() => screen.getByText(/The status of the API server is OK./))
+    const statusText = await waitForElement(() =>
+      screen.getByText(/The status of the API server is OK./)
+    );
   });
   it("reports bad API status", async () => {
     mockAPI.mockImplementationOnce(() => {
       throw new Error();
     });
     render(<App />);
-    const statusText = await waitForElement(() => screen.getByText(/The status of the API server is bad./))
+    const statusText = await waitForElement(() =>
+      screen.getByText(/The status of the API server is bad./)
+    );
   });
-})
+});

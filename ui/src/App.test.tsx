@@ -25,7 +25,7 @@ describe("App", () => {
   it("reports OK API status", async () => {
     mockAPI.mockResolvedValueOnce(okResponse);
     render(<App />);
-    const statusText = await waitForElement(() =>
+    await waitForElement(() =>
       screen.getByText(/The status of the API server is OK./)
     );
   });
@@ -34,7 +34,7 @@ describe("App", () => {
       throw new Error();
     });
     render(<App />);
-    const statusText = await waitForElement(() =>
+    await waitForElement(() =>
       screen.getByText(/The status of the API server is bad./)
     );
   });

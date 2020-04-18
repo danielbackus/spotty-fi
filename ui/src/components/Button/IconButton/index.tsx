@@ -3,7 +3,6 @@ import Button from "..";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faHandPointUp } from "@fortawesome/free-solid-svg-icons";
-import css from "@emotion/css/macro";
 
 const IconButton = ({
   onClick = () => {},
@@ -20,11 +19,6 @@ const IconButton = ({
     <FontAwesomeIcon
       icon={icon}
       size="2x"
-      css={css`
-        "&::before": {
-          content: " fatone ";
-        }
-      `}
     />
   </Button>
 );

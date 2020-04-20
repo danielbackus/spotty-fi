@@ -12,7 +12,7 @@ const styles = {
 };
 
 const Button = ({
-  onClick = () => {},
+  onClick = () => { },
   children = React.Children,
   disabled = false,
   text = "",
@@ -22,10 +22,10 @@ const Button = ({
   disabled?: boolean;
   text?: string;
 }) => (
-  <button disabled={disabled} onClick={() => onClick()} style={styles.button}>
-    <div style={styles.left}>{text}</div>
-    {children}
-  </button>
-);
+    <button disabled={disabled} onClick={() => onClick()} style={styles.button}>
+      <div className="fa-button-parent" style={styles.left}>{text}</div>
+      {children}
+    </button>
+  );
 
 export default Button;

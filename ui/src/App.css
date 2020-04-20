@@ -28,8 +28,8 @@
   color: #61dafb;
 }
 
-.fa-button-parent::after{
-  content: ' ';
+.fa-button-parent::after {
+  content: " ";
   white-space: pre;
 }
 

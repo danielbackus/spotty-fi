@@ -3,6 +3,8 @@ import ky from "ky";
 import { API_URL } from "./constants";
 import logo from "./logo.svg";
 import "./App.css";
+import SpotifyLoginDialog from "./components/SpotifyLoginDialog";
+
 
 const App = () => {
   const [apiStatus, setApiStatus] = useState("unknown");
@@ -31,6 +33,7 @@ const App = () => {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
+        <div><SpotifyLoginDialog /></div>
         <p>The status of the API server is {apiStatus}.</p>
       </header>
     </div>

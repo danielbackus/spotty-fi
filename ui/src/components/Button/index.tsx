@@ -16,13 +16,19 @@ const Button = ({
   children = React.Children,
   disabled = false,
   text = "",
+  ...props
 }: {
   onClick?: Function;
   children?: React.ReactNode;
   disabled?: boolean;
   text?: string;
 }) => (
-  <button disabled={disabled} onClick={() => onClick()} style={styles.button}>
+  <button
+    disabled={disabled}
+    onClick={() => onClick()}
+    style={styles.button}
+    {...props}
+  >
     <div className="fa-button-parent" style={styles.left}>
       {text}
     </div>

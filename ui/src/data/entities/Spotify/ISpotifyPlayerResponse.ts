@@ -13,5 +13,3 @@ export interface ISpotifyPlayerResponse {
   shuffle_state?: boolean;
   timestamp?: Date;
 }
-
-

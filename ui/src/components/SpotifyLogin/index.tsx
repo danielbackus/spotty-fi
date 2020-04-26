@@ -1,35 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { hash } from "../../utils";
 import { SPOTIFY_LOGIN_URL } from "../../constants";
 import SpotifyPlayer from "../SpotifyPlayer";
 import Button from "components/Button";
-import ky from "ky";
-import { ISpotifyPlayerResponse } from "data/entities/Spotify/ISpotifyPlayerResponse";
 
 const SpotifyLogin = () => {
   const [spotifyApiToken, setSpotifyApiToken] = useState(
     localStorage.getItem("spotifyToken") || hash.access_token
   );
 
-  //const [currentPlayingItem, setCurrentlyPlayingItem] = useState<ISpotifyPlayer>({ loginToken: spotifyApiToken, apiResponse: null });
-
-
-  const logout = () => {
+  /**
+   * Will flush the token from local storage
+   * and update component's token state variable, to purge it
+   */
+  const setLoggedOut = () => {
     localStorage.removeItem("spotifyToken");
     setSpotifyApiToken("");
   };
 
   localStorage.setItem("spotifyToken", spotifyApiToken);
-
-
-  useEffect(() => {
-    if (spotifyApiToken) {
-      //setCurrentlyPlayingItem({ loginToken: spotifyApiToken, apiResponse: null });
-
-
-    }
-
-  }, [spotifyApiToken]);
 
   return (
     <div>
@@ -49,11 +38,10 @@ const SpotifyLogin = () => {
         {spotifyApiToken && (
           <>
             <SpotifyPlayer
-
               loginToken={spotifyApiToken}
-
+              setLoggedOut={setLoggedOut}
             />
-            <Button onClick={logout}>Log out</Button>
+            <Button onClick={setLoggedOut}>Log out</Button>
           </>
         )}
       </div>

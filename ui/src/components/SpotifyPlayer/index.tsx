@@ -2,12 +2,18 @@ import React, { FC, useState, useEffect } from "react";
 import { ISpotifyPlayerResponse } from "data/entities/Spotify/ISpotifyPlayerResponse";
 import ky from "ky";
 import { ISpotifyPlayerItem } from "data/entities/Spotify/ISpotifyPlayerItem";
+import { ISpotifyPlayerArtist } from "data/entities/Spotify/ISpotifyPlayerArtist";
 
-const SpotifyPlayer: FC<any | null> = (props) => {
+const SpotifyPlayer = (props: any) => {
   const [progress, setProgress] = useState<number>(0);
   const [song, setSong] = useState<ISpotifyPlayerItem | null>();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(props.loginToken as string);
+
+  /**
+   * Error handler to bubble up to the parent, currently the login component
+   */
+  const { onError } = props;
 
   const backgroundStyles = {
     backgroundImage: `url(${song?.album.images[0].url})`,
@@ -19,13 +25,6 @@ const SpotifyPlayer: FC<any | null> = (props) => {
       "linear-gradient(to right, #b4ddb4 0%,#83c783 17%,#52b152 33%,#008a00 67%,#005700 83%,#002400 100%)",
     width: progress + "%",
     marginBottom: "20px",
-  };
-
-  /**
-   * Will invoke parent component's (logincomponent) logout function
-   */
-  const setLoggedOut = () => {
-    props.setLoggedOut();
   };
 
   /**
@@ -58,7 +57,7 @@ const SpotifyPlayer: FC<any | null> = (props) => {
          When this happens, check the Retry-After header, where you will see a number displayed. 
          This is the number of seconds that you need to wait, before you try your request again. 
          */
-        setLoggedOut();
+        onError(err);
       }
     }
   };
@@ -85,7 +84,7 @@ const SpotifyPlayer: FC<any | null> = (props) => {
           </section>
           <aside>
             <h5>{song?.name}</h5>
-            <h5>{song?.artists[0].name}</h5>
+            <h5>{song?.artists.map((item) => item.name).join(", ")}</h5>
             <h5>{isPlaying ? "Playing" : "Paused"}</h5>
             <div>
               <div style={progressBarStyles} />

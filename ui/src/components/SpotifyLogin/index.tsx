@@ -13,7 +13,7 @@ const SpotifyLogin = () => {
    * Will flush the token from local storage
    * and update component's token state variable, to purge it
    */
-  const setLoggedOut = () => {
+  const logOut = (errInfo: any) => {
     localStorage.removeItem("spotifyToken");
     setSpotifyApiToken("");
   };
@@ -37,11 +37,8 @@ const SpotifyLogin = () => {
         )}
         {spotifyApiToken && (
           <>
-            <SpotifyPlayer
-              loginToken={spotifyApiToken}
-              setLoggedOut={setLoggedOut}
-            />
-            <Button onClick={setLoggedOut}>Log out</Button>
+            <SpotifyPlayer loginToken={spotifyApiToken} onError={logOut} />
+            <Button onClick={logOut}>Log out</Button>
           </>
         )}
       </div>

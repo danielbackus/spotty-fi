@@ -3,6 +3,7 @@ import { hash } from "../../utils";
 import { SPOTIFY_LOGIN_URL } from "../../constants";
 import SpotifyPlayer from "../SpotifyPlayer";
 import Button from "components/Button";
+import SpotifyError from "data/entities/Spotify/SpotifyError";
 
 const SpotifyLogin = () => {
   const [spotifyApiToken, setSpotifyApiToken] = useState(
@@ -13,7 +14,7 @@ const SpotifyLogin = () => {
    * Will flush the token from local storage
    * and update component's token state variable, to purge it
    */
-  const logOut = (errInfo: any) => {
+  const logOut = (err: SpotifyError) => {
     localStorage.removeItem("spotifyToken");
     setSpotifyApiToken("");
   };

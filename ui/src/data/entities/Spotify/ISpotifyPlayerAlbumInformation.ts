@@ -1,9 +1,6 @@
 import { ISpotifyItemArt } from "./ISpotifyItemArt";
 import { ISpotifyPlayerArtist } from "./ISpotifyPlayerArtist";
 export interface ISpotifyPlayerAlbumInformation {
-  /*"external_urls" : {
-    "spotify" : "https://open.spotify.com/album/3Xcl0pytPYqJUSTi2S8jtI"
-  },*/
   album_type: string;
   artists: Array<ISpotifyPlayerArtist>;
   available_markets: Array<string>;

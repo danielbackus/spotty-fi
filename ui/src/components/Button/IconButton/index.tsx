@@ -16,10 +16,7 @@ const IconButton = ({
   text?: string;
 }) => (
   <Button disabled={disabled} onClick={() => onClick()} text={text}>
-    <FontAwesomeIcon
-      icon={icon}
-      size="2x"
-    />
+    <FontAwesomeIcon icon={icon} size="2x" />
   </Button>
 );
 

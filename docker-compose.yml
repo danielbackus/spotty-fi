@@ -67,7 +67,7 @@ services:
     environment:
       - CYPRESS_baseUrl=http://ui:3000
     command: npx cypress run
-    links: 
+    links:
       - ui
     volumes:
       - ./e2e/cypress:/app/cypress

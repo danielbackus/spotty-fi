@@ -7,7 +7,7 @@
     "lint": "npm run lint-api && npm run lint-ui",
     "lint-api": "npm run --prefix api lint",
     "lint-ui": "npm run --prefix ui lint",
-    "prettier": "npx pretty-quick --staged",
+    "prettier": "npx prettier . --write",
     "test": "npm run test-api && npm run test-ui",
     "test-api": "npm run --prefix api test",
     "test-ui": "npm run --prefix ui test"

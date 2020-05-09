@@ -9,6 +9,7 @@ export const scopes = [
   "user-top-read",
   "user-read-currently-playing",
   "user-read-playback-state",
+  "user-modify-playback-state",
 ];
 
 export const SPOTIFY_LOGIN_URL = `${AUTH_ENDPOINT}?client_id=${SPOTIFY_CLIENT_ID}&redirect_uri=${SPOTIFY_REDIRECT_URI}&scope=${scopes.join(

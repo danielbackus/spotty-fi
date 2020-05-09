@@ -3,21 +3,40 @@ import { ISpotifyPlayerResponse } from "data/entities/Spotify/ISpotifyPlayerResp
 import ky from "ky";
 import { ISpotifyPlayerItem } from "data/entities/Spotify/ISpotifyPlayerItem";
 import SpotifyError from "data/entities/Spotify/SpotifyError";
+import IconButton from "components/Button/IconButton";
+import {
+  faPlayCircle,
+  faPauseCircle,
+  faFastForward,
+  faFastBackward,
+} from "@fortawesome/free-solid-svg-icons";
 
-const SpotifyPlayer = ({
+enum PlayerStatus {
+  Loading = "Loading...",
+  Playing = "Playing",
+  Paused = "Paused",
+}
+enum PlayerCommand {
+  Backwards = "previous",
+  Forwards = "next",
+  Pause = "pause",
+  Play = "play",
+}
+
+type SpotifyPlayerProps = { loginToken: string; onError: Function };
+
+const SpotifyPlayer: React.FunctionComponent<SpotifyPlayerProps> = ({
   /**
    * Error handler to bubble up to the parent, currently the login component
    */
   onError,
-
   loginToken = "",
-}: {
-  loginToken: string;
-  onError: Function;
 }) => {
   const [progress, setProgress] = useState<number>(0);
   const [song, setSong] = useState<ISpotifyPlayerItem | null>();
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<PlayerStatus>(
+    PlayerStatus.Loading
+  );
 
   const backgroundStyles = {
     backgroundImage: `url(${song?.album.images[0].url})`,
@@ -35,7 +54,7 @@ const SpotifyPlayer = ({
    * Calls spotify's /player endpoing to fetch user's current playing state
    * and information about any playing songs
    */
-  const getCurrentlyPlaying = async () => {
+  const refreshPlayerStatus = async () => {
     if (loginToken) {
       try {
         const response = await ky.get("https://api.spotify.com/v1/me/player", {
@@ -44,14 +63,18 @@ const SpotifyPlayer = ({
           },
         });
 
-        if (response.status == 200) {
+        if (response.status === 200) {
           const spotifyResponse = (await response.json()) as ISpotifyPlayerResponse;
           setSong(spotifyResponse.item);
           setProgress(
             ((spotifyResponse.progress_ms ?? 0) / (song?.duration_ms ?? 0)) *
               100
           );
-          setIsPlaying(spotifyResponse.is_playing);
+          setIsPlaying(
+            spotifyResponse.is_playing
+              ? PlayerStatus.Playing
+              : PlayerStatus.Paused
+          );
         }
       } catch (err) {
         /* (from https://developer.spotify.com/documentation/web-api/)
@@ -65,12 +88,55 @@ const SpotifyPlayer = ({
   };
 
   /**
+   * Fires off a REST request to spotify's api to perform the specified player action
+   * @param command
+   */
+  const executePlayerCommand = async (command: PlayerCommand) => {
+    try {
+      let response;
+      const headers = {
+        headers: {
+          Authorization: `Bearer ${loginToken}`,
+        },
+      };
+      switch (command) {
+        case PlayerCommand.Pause:
+        case PlayerCommand.Play:
+          response = await ky.put(
+            `https://api.spotify.com/v1/me/player/${command.toString()}`,
+            headers
+          );
+          break;
+
+        case PlayerCommand.Backwards:
+        case PlayerCommand.Forwards:
+          response = await ky.post(
+            `https://api.spotify.com/v1/me/player/${command.toString()}`,
+            headers
+          );
+          break;
+      }
+
+      if (response.status === 204) {
+        refreshPlayerStatus();
+      }
+    } catch (err) {
+      /* (from https://developer.spotify.com/documentation/web-api/)
+         Note: If Web API returns status code 429, it means that you have sent too many requests. 
+         When this happens, check the Retry-After header, where you will see a number displayed. 
+         This is the number of seconds that you need to wait, before you try your request again. 
+         */
+      onError(new SpotifyError(err.message));
+    }
+  };
+
+  /**
    * Will start a setTimeout call, every second, to call getCurrentlyPlaying,
    * to get fresh information on an interval
    */
   useEffect(() => {
     const interval = setTimeout(() => {
-      getCurrentlyPlaying();
+      refreshPlayerStatus();
     }, 1000);
     return () => {
       clearTimeout(interval);
@@ -82,14 +148,44 @@ const SpotifyPlayer = ({
       {loginToken && (
         <div>
           <section style={{ marginBottom: "75px" }}>
-            <img src={song?.album.images[0].url} />
+            <img
+              alt={`${song?.name} Album Art`}
+              src={song?.album.images[0].url}
+            />
           </section>
           <aside>
             <h5>{song?.name}</h5>
             <h5>{song?.artists.map((item) => item.name).join(", ")}</h5>
-            <h5>{isPlaying ? "Playing" : "Paused"}</h5>
+            <h5>{isPlaying.toString()}</h5>
             <div>
               <div style={progressBarStyles} />
+            </div>
+            <div>
+              <IconButton
+                onClick={() => executePlayerCommand(PlayerCommand.Backwards)}
+                icon={faFastBackward}
+                text={"Prev"}
+              />
+              <IconButton
+                onClick={() =>
+                  executePlayerCommand(
+                    isPlaying === PlayerStatus.Paused
+                      ? PlayerCommand.Play
+                      : PlayerCommand.Pause
+                  )
+                }
+                icon={
+                  isPlaying === PlayerStatus.Paused
+                    ? faPlayCircle
+                    : faPauseCircle
+                }
+                text={isPlaying === PlayerStatus.Paused ? "Play" : "Pause"}
+              />
+              <IconButton
+                onClick={() => executePlayerCommand(PlayerCommand.Forwards)}
+                icon={faFastForward}
+                text={"Next"}
+              />
             </div>
           </aside>
           <div style={backgroundStyles} />

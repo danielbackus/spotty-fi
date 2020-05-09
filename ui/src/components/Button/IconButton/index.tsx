@@ -9,20 +9,13 @@ const IconButton = ({
   icon = faHandPointUp,
   disabled = false,
   text = "",
-  onClickArgs = null,
 }: {
   onClick?: Function;
   icon: IconProp;
   disabled?: boolean;
   text?: string;
-  onClickArgs?: any;
 }) => (
-  <Button
-    disabled={disabled}
-    onClick={() => onClick(onClickArgs)}
-    text={text}
-    onClickArgs={onClickArgs}
-  >
+  <Button disabled={disabled} onClick={() => onClick()} text={text}>
     &nbsp; <FontAwesomeIcon icon={icon} size="2x" />
   </Button>
 );

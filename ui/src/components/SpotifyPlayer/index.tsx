@@ -23,15 +23,14 @@ enum PlayerCommand {
   Play = "play",
 }
 
-const SpotifyPlayer = ({
+type SpotifyPlayerProps = { loginToken: string; onError: Function };
+
+const SpotifyPlayer: React.FunctionComponent<SpotifyPlayerProps> = ({
   /**
    * Error handler to bubble up to the parent, currently the login component
    */
   onError,
   loginToken = "",
-}: {
-  loginToken: string;
-  onError: Function;
 }) => {
   const [progress, setProgress] = useState<number>(0);
   const [song, setSong] = useState<ISpotifyPlayerItem | null>();
@@ -163,31 +162,30 @@ const SpotifyPlayer = ({
             </div>
             <div>
               <IconButton
-                onClickArgs={PlayerCommand.Backwards}
-                onClick={executePlayerCommand}
+                onClick={() => executePlayerCommand(PlayerCommand.Backwards)}
                 icon={faFastBackward}
                 text={"Prev"}
-              ></IconButton>
+              />
               <IconButton
-                onClickArgs={
-                  isPlaying === PlayerStatus.Paused
-                    ? PlayerCommand.Play
-                    : PlayerCommand.Pause
+                onClick={() =>
+                  executePlayerCommand(
+                    isPlaying === PlayerStatus.Paused
+                      ? PlayerCommand.Play
+                      : PlayerCommand.Pause
+                  )
                 }
-                onClick={executePlayerCommand}
                 icon={
                   isPlaying === PlayerStatus.Paused
                     ? faPlayCircle
                     : faPauseCircle
                 }
                 text={isPlaying === PlayerStatus.Paused ? "Play" : "Pause"}
-              ></IconButton>
+              />
               <IconButton
-                onClickArgs={PlayerCommand.Forwards}
-                onClick={executePlayerCommand}
+                onClick={() => executePlayerCommand(PlayerCommand.Forwards)}
                 icon={faFastForward}
                 text={"Next"}
-              ></IconButton>
+              />
             </div>
           </aside>
           <div style={backgroundStyles} />

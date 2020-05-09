@@ -17,21 +17,19 @@ const Button = ({
   children = React.Children,
   disabled = false,
   text = "",
-  onClickArgs = null,
   ...props
 }: {
   onClick?: Function;
   children?: React.ReactNode;
   disabled?: boolean;
   text?: string;
-  onClickArgs?: any;
 }) => {
   let elementRef: any = null;
   return (
     <button
       disabled={disabled}
       onClick={() => {
-        onClick(onClickArgs);
+        onClick();
         elementRef.blur();
       }}
       style={styles.button}
